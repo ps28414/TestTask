@@ -1,37 +1,56 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+      MaterialApp(
+        home: MyApp(),
+        theme: ThemeData(primaryColor: Colors.deepOrangeAccent),
+      )
+  );
+}
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatefulWidget {
+  @override
+  createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Random _random = Random();
+
+  Color _color = Color(0xFFFFFFFF);
+
+  void changeColor() {
+    setState(() {
+      _color = Color.fromARGB(
+        _random.nextInt(256),
+        _random.nextInt(256),
+        _random.nextInt(256),
+        _random.nextInt(256),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.deepOrangeAccent,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Test project - Pavlo Slipets"),
+        centerTitle: true,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Pavlo Slipets - Test Project"),
-          centerTitle: true,
-        ),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: () => print('Tapped'),
-          child: Expanded(
-            child: Container(
-              child: Center(
-                  child: Text (
-                    "Hey there!",
-                    style: TextStyle(
-                      fontFamily: "Times New Roman",
-                      fontSize: 40,
-                    ),
-                  )
+        onTap: changeColor,
+          child: Container(
+            color: _color,
+            child: Center(
+              child: Text(
+                  "Hey there!",
+                style: TextStyle(fontSize: 40),
               ),
             ),
           ),
         ),
-      ),
     );
   }
 }
